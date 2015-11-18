@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+         
+         
+         <changeSet id="1" author="vijay">
+         	<createTable tableName="user_details">
+         		<column name="csu_id" type="int">
+         			<constraints primaryKey="true" nullable="false" unique="true"/>
+         		</column>
+         		<column name="first_name" type="varchar(50)">
+         			<constraints nullable="false"/>         		
+         		</column>
+         		 <column name="last_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(50)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="password" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="addr_line1" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="addr_line2" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="city" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zip_code" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="state" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="is_admin" type="varchar(5)" defaultValue="false">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_type" type="varchar(50)" defaultValue="Event_Manager">
+				<constraints nullable="false" />
+			</column>
+            <column name="created_date" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" >
+                <constraints nullable="false" />
+            </column>
+       	</createTable>
+   </changeSet>
+   <changeSet id="2" author="vijay">
+   		<createTable tableName="reset_password">
+            <column name="csu_id" type="int" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="guiId" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reset_date" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_reset_pass_csu_id" baseTableName="reset_password" 
+        	baseColumnNames="csu_id" referencedTableName="user_details" referencedColumnNames="csu_id" 
+        	onDelete="CASCADE" />
+        
+        <createTable tableName="user_logins">
+            <column name="csu_id" type="int" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_login" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
+            </column>
+            <column name="login_count" type="int" >
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_user_logins_csu_id" baseTableName="user_logins" 
+        	baseColumnNames="csu_id" referencedTableName="user_details" referencedColumnNames="csu_id" 
+        	onDelete="CASCADE" />
+        	
+        <createTable tableName="user_posts">
+            <column name="post_id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="csu_id" type="int" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="post" type="varchar(500)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="post_date" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" >
+            </column>
+            <column name="email_id" type="VARCHAR(45)" >
+            </column>
+            <column name="post_type" type="varchar(50)" defaultValue="Job">
+						<constraints nullable="false" />
+			</column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_post_csu_id" baseTableName="user_posts" 
+        	baseColumnNames="csu_id" referencedTableName="user_details" referencedColumnNames="csu_id" 
+        	onDelete="CASCADE" />
+        	
+        <createTable tableName="events">
+        	<column name="event_id" type="int" autoIncrement="true">
+        		<constraints nullable="false" primaryKey="true"/>
+        	</column>
+        	<column name="csu_id" type="int" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_desc" type="varchar(500)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_date" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" >
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_event_csu_id" baseTableName="events" 
+        	baseColumnNames="csu_id" referencedTableName="user_details" referencedColumnNames="csu_id" 
+        	onDelete="CASCADE" />
+    </changeSet>
+    <changeSet id="3" author="Vijay">
+		<comment>Creating Admin User</comment>
+		<sql>INSERT INTO `user_details` (`csu_id`,`first_name`,`last_name`,`email`,`password`,`phone_number`,`addr_line1`,`addr_line2`,
+		`city`,`zip_code`,`state`,`is_admin`) VALUES (2642765,'Vijay','Pagolu','vijaysarathipvs@gmail.com',
+		'$2a$08$xdwCDfBuazhFiCluLDQXK.KoJ.X.dHCY4cG5sN2u2gcVgYBNV6G0a','9999999999','','','Cleveland','44114','Ohio','1');
+		</sql>
+	</changeSet>
+	<changeSet id="4" author="Vijay">
+		<comment>Adding post_type column to User Posts table</comment>
+			<addColumn tableName="user_posts">
+					<column name="image_name" type="varchar(500)">
+						<constraints nullable="true" />
+					</column>
+			</addColumn>
+	</changeSet>
+	
+</databaseChangeLog>
+         
+         

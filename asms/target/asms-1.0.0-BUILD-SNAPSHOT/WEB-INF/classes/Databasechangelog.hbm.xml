@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 11, 2015 8:03:17 PM by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="Databasechangelog" table="databasechangelog" catalog="asms" optimistic-lock="version">
+        <composite-id name="id" class="DatabasechangelogId">
+            <key-property name="id" type="string">
+                <column name="ID" length="63" />
+            </key-property>
+            <key-property name="author" type="string">
+                <column name="AUTHOR" length="63" />
+            </key-property>
+            <key-property name="filename" type="string">
+                <column name="FILENAME" length="200" />
+            </key-property>
+        </composite-id>
+        <property name="dateexecuted" type="timestamp">
+            <column name="DATEEXECUTED" length="19" not-null="true" />
+        </property>
+        <property name="orderexecuted" type="int">
+            <column name="ORDEREXECUTED" not-null="true" />
+        </property>
+        <property name="exectype" type="string">
+            <column name="EXECTYPE" length="10" not-null="true" />
+        </property>
+        <property name="md5sum" type="string">
+            <column name="MD5SUM" length="35" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" />
+        </property>
+        <property name="comments" type="string">
+            <column name="COMMENTS" />
+        </property>
+        <property name="tag" type="string">
+            <column name="TAG" />
+        </property>
+        <property name="liquibase" type="string">
+            <column name="LIQUIBASE" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>

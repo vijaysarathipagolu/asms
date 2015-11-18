@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 11, 2015 8:03:17 PM by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.csu.asms.domain.user.User" table="user_details" >
+        <id name="csuid" type="java.lang.Long">
+            <column name="csu_id" />
+        </id>
+        <property name="firstName" type="string">
+            <column name="first_name" length="50" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="last_name" length="50" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="50" not-null="true" unique="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="200" not-null="true" />
+        </property>
+        <property name="phoneNumber" type="string">
+            <column name="phone_number" length="20" not-null="true" />
+        </property>
+        <property name="addrLine1" type="string">
+            <column name="addr_line1" length="50" />
+        </property>
+        <property name="addrLine2" type="string">
+            <column name="addr_line2" length="50" />
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="50" not-null="true" />
+        </property>
+        <property name="zipCode" type="string">
+            <column name="zip_code" length="50" />
+        </property>
+        <property name="state" type="string">
+            <column name="state" length="50" />
+        </property>
+        <property name="admin" type="boolean">
+            <column name="is_admin" length="15" not-null="true" />
+        </property>
+        <property name="typeOfUser" type="string">
+            <column name="user_type" length="50" not-null="true" />
+        </property>
+        <property name="registeredDate" type="timestamp" update="false">
+            <column name="created_date"  not-null="false" />
+        </property>
+        <one-to-one name="userLogins" class="com.csu.asms.domain.user.UserLogins"
+			cascade="all" />
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 11, 2015 8:03:17 PM by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.csu.asms.domain.user.UserPost" table="user_posts" catalog="asms" optimistic-lock="version">
+        <id name="postId" type="java.lang.Long">
+            <column name="post_id" />
+            <generator class="native" />
+        </id>
+        <property name="csuid" type="java.lang.Long" update="false" insert="true">
+			<column name="csu_id" not-null="false" />
+		</property>
+        <property name="post" type="string">
+            <column name="post" length="500" not-null="true" />
+        </property>
+        <property name="postDate" type="timestamp">
+            <column name="post_date" length="19" not-null="true" />
+        </property>
+        <property name="emailId" type="string">
+            <column name="email_id" length="45" />
+        </property>
+        <property name="postType" type="string">
+            <column name="post_type" length="50"  />
+        </property>
+        <property name="imageName" type="string">
+            <column name="image_name" length="500" not-null="false"  />
+        </property>
+    </class>
+</hibernate-mapping>
