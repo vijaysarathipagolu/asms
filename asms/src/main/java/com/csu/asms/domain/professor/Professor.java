@@ -14,6 +14,7 @@ public class Professor implements Serializable{
 	
 	private static final long serialVersionUID = -5761928267185370992L;
 	
+	private int prof_id;
 	private String profName;
 	private String profEmail;
 	private String phoneNumber;
@@ -21,6 +22,18 @@ public class Professor implements Serializable{
 	private String profResearch;
 	
 	
+	/**
+	 * @return the prof_id
+	 */
+	public int getProf_id() {
+		return prof_id;
+	}
+	/**
+	 * @param prof_id the prof_id to set
+	 */
+	public void setProf_id(int prof_id) {
+		this.prof_id = prof_id;
+	}
 	/**
 	 * @return the profName
 	 */

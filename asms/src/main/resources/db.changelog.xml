@@ -136,7 +136,102 @@
 					</column>
 			</addColumn>
 	</changeSet>
-	
+	<changeSet id="5" author="vijay">
+		<comment>Creating Professors table</comment>
+		<createTable tableName="professors">
+			<column name="prof_id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="prof_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(50)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="phone_number" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dept" type="varchar(50)">
+            	<constraints nullable="false"/>
+            </column>
+             <column name="research" type="varchar(500)">
+             	<constraints nullable="false"/>
+             </column> 
+		</createTable>	
+	</changeSet>
+	<changeSet id="6" author="vijay">
+		<comment>Adding Professors details</comment>
+		<sql>INSERT INTO `professors` (`prof_name`,`email`,`phone_number`,`dept`,`research`) VALUES ('Dr. Nigamanth Sridhar','n.sridhar1@csuohio.edu','2166875341','Electrical Engineering and Computer Science','Dependable Systems and Networks')</sql>
+	</changeSet>
+	<changeSet id="7" author="vijay">
+		<comment>Adding Few More Professors details</comment>
+		<sql>INSERT INTO `professors` (`prof_name`,`email`,`phone_number`,`dept`,`research`) VALUES ('Dr. Yongjian Fu','y.fu@csuohio.edu','2166875518','Electrical Engineering and Computer Science','Web Mining and Data Mining')</sql>
+		<sql>INSERT INTO `professors` (`prof_name`,`email`,`phone_number`,`dept`,`research`) VALUES ('Dr. Chien-Hua Lin','C.LIN@csuohio.edu','2166874783','Electrical Engineering and Computer Science','Multimedia Content Indexing and Retrieval')</sql>
+		<sql>INSERT INTO `professors` (`prof_name`,`email`,`phone_number`,`dept`,`research`) VALUES ('Dr. Chansu Yu','C.YU91@csuohio.edu','2166872584','Electrical Engineering and Computer Science','Mobile Computing and Mobile Networks')</sql>
+		<sql>INSERT INTO `professors` (`prof_name`,`email`,`phone_number`,`dept`,`research`) VALUES ('Dr. Wenbing Zhao','W.ZHAO1@csuohio.edu','2165237480','Electrical Engineering and Computer Science','Building Secure and Dependable Distributed Systems')</sql>
+		<sql>INSERT INTO `professors` (`prof_name`,`email`,`phone_number`,`dept`,`research`) VALUES ('Dr. Sunnie S. Chung','s.chung@csuohio.edu','2166874732','Electrical Engineering and Computer Science','Data Analytics and Big Data Processing in Massively Parallel Processing (MPP) Systems')</sql>
+	</changeSet>
+	<changeSet id="8" author="vijay">
+	 	<comment>Creating User Email table</comment>
+        <createTable tableName="user_emails">
+            <column name="mail_id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="csu_id" type="int" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_email" type="VARCHAR(50)" >
+            <constraints nullable="false"/>
+            </column>
+            <column name="to_email" type="VARCHAR(50)" >
+            <constraints nullable="false"/>
+            </column>
+            <column name="request_date" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP" >
+                <constraints nullable="false" />
+            </column>
+			<column name="scheduled" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+			 <column name="mail_in_date" type="timestamp" >
+            	<constraints nullable="true" />
+            </column>
+             <column name="attach_name" type="varchar(500)">
+						<constraints nullable="true" />
+			</column>
+			<column name="cc" type="VARCHAR(50)" >
+             <constraints nullable="true" />
+            </column>
+             <column name="bcc" type="VARCHAR(50)" >
+              <constraints nullable="true" />
+            </column>
+            <column name="subject" type="varchar(500)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="emailBody" type="varchar(500)" >
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_email_csu_id" baseTableName="user_emails" 
+        	baseColumnNames="csu_id" referencedTableName="user_details" referencedColumnNames="csu_id" 
+        	onDelete="CASCADE" />
+    </changeSet>
+    <changeSet id="9" author="vijay" >
+    	<addColumn tableName="events">
+        	<column name="event_type" type="varchar(50)">
+        		<constraints nullable="false"/>
+        	</column>
+        	<column name="email" type="varchar(100)">
+        		<constraints nullable="false"/>
+        	</column>	
+    	</addColumn>
+	</changeSet>
+	<changeSet author="vijay" id="10">
+    <addNotNullConstraint 
+            columnDataType="timestamp"
+            columnName="event_date"
+            defaultNullValue="CURRENT_TIMESTAMP"
+            tableName="events"/>
+	</changeSet>
 </databaseChangeLog>
          
          

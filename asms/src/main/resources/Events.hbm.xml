@@ -11,11 +11,17 @@
         <property name="csuid" type="java.lang.Long" update="false" insert="true">
 			<column name="csu_id" not-null="false" />
 		</property>
+		<property name="email" type="string">
+            <column name="email" length="100" not-null="true" />
+        </property>
         <property name="eventDesc" type="string">
             <column name="event_desc" length="500" not-null="true" />
         </property>
         <property name="eventDate" type="timestamp">
             <column name="event_date" length="19" not-null="true" />
+        </property>
+        <property name="eventType" type="string">
+            <column name="event_type" length="50" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

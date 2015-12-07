@@ -16,7 +16,8 @@ public class UserStoryJsonDto {
 	private Date lastLoginDate;
 	private int loginCount;
 	private int postCount;
-	private Long userId;
+	private Long csu_id;
+	private String user_type;
 	/**
 	 * @return the email
 	 */
@@ -77,16 +78,30 @@ public class UserStoryJsonDto {
 	public void setPostCount(int postCount) {
 		this.postCount = postCount;
 	}
+	
 	/**
-	 * @return the userId
+	 * @return the user_type
 	 */
-	public Long getUserId() {
-		return userId;
+	public String getUser_type() {
+		return user_type;
 	}
 	/**
-	 * @param userId the userId to set
+	 * @param user_type the user_type to set
 	 */
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
 	}
+	/**
+	 * @return the csu_id
+	 */
+	public Long getCsu_id() {
+		return csu_id;
+	}
+	/**
+	 * @param csu_id the csu_id to set
+	 */
+	public void setCsu_id(Long csu_id) {
+		this.csu_id = csu_id;
+	}
+	
 }

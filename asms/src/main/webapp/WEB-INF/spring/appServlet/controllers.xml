@@ -9,19 +9,73 @@
 
 	<import resource="applicationContext-hibernate.xml" />
 	
-<util:properties id="applicationProps" 
+	<util:properties id="applicationProps" 
 			location="classpath:/messages_en.properties"/>
-<bean id="messageSource"
+	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource"
 		p:basename="messages" />
 
-<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">		
+		<property name="host" value="${smtp.host}" />
+		<property name="port" value="${smtp.port}" />
+		<property name="username" value="${smtp.user}" />
+		<property name="password" value="${smtp.password}" />
+		
+		<property name="javaMailProperties">
+			<props>
+            	<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+            	<prop key="mail.smtp.ssl.enable">${mail.smtp.ssl.enable}</prop>
+            	<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+            	<prop key="mail.debug">${mail.debug}</prop>            	
+            	<prop key="mail.smtp.ssl.trust">${mail.smtp.ssl.trust}</prop>
+            	<prop key="mail.mime.multipart.allowempty">${mail.mime.multipart.allowempty}</prop>
+        	</props>
+		</property>
+		
+	</bean>
+	<bean id="simpleMailMessage"
+		class="org.springframework.mail.SimpleMailMessage">
 
-<bean id="asmsProperties"
+		<property name="from" value="${mail.from}" />
+		<property name="to" value="${mailfeedback.to}" />
+		<property name="subject" value="Password Reset for Alumni Student Management System" />
+		<property name="text">
+		<value>
+			<![CDATA[
+				Dear %s,
+				
+				Please click on the below link to reset password 
+				  
+				 %s
+				 
+				 Thank you for using Alumni Student Management System,  
+				 Best Regards, 
+				 Cleveland State University.
+			]]>
+		</value>
+		</property>
+	</bean>	
+	
+	<bean id="alertMailMessage" class="org.springframework.mail.SimpleMailMessage">
+		<!-- <property name="from" value="${alert.from}" /> -->
+		<property name="to" value="${alert.to}" />
+		<property name="subject" value="${alert.subject}" />		
+	</bean>
+	<bean id="asmsProperties"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations">
 			<list>
 				<value>file:${ASMS_HOME}/asms.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="smtpProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>file:${ASMS_HOME}/smtp.properties</value>
 			</list>
 		</property>
 	</bean>

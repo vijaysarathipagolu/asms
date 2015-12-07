@@ -45,6 +45,11 @@ public class User implements Serializable{
 	private CommonsMultipartFile postimg;
 	private String postType;
 	
+	private String eventDesc;
+	private Date eventDate;
+	private String date;
+	private String eventType;
+	
 	/**
 	 * @return the edit
 	 */
@@ -357,6 +362,54 @@ public class User implements Serializable{
 	 */
 	public void setPostType(String postType) {
 		this.postType = postType;
+	}
+	/**
+	 * @return the eventDate
+	 */
+	public Date getEventDate() {
+		return eventDate;
+	}
+	/**
+	 * @param eventDate the eventDate to set
+	 */
+	public void setEventDate(Date eventDate) {
+		this.eventDate = eventDate;
+	}
+	/**
+	 * @return the eventType
+	 */
+	public String getEventType() {
+		return eventType;
+	}
+	/**
+	 * @param eventType the eventType to set
+	 */
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+	/**
+	 * @return the eventDesc
+	 */
+	public String getEventDesc() {
+		return eventDesc;
+	}
+	/**
+	 * @param eventDesc the eventDesc to set
+	 */
+	public void setEventDesc(String eventDesc) {
+		this.eventDesc = eventDesc;
+	}
+	/**
+	 * @return the date
+	 */
+	public String getDate() {
+		return date;
+	}
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(String date) {
+		this.date = date;
 	}
 	
 	

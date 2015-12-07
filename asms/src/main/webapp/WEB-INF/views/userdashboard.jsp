@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--
   Material Design Lite
@@ -43,13 +51,18 @@
     <link rel="canonical" href="http://www.example.com/">
     -->
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/material.min.css">
-    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/userdashboard.css">
-     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/admindashboard.css">
-    <style>
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="${pageContext.servletContext.contextPath}/resources/css/material.min.css">
+<link rel="stylesheet"
+	href="${pageContext.servletContext.contextPath}/resources/css/userdashboard.css">
+<link rel="stylesheet"
+	href="${pageContext.servletContext.contextPath}/resources/css/admindashboard.css">
+<style>
     #view-source {
       position: fixed;
       display: block;
@@ -60,20 +73,49 @@
       z-index: 900;
     }
     </style>
+
   </head>
   <jsp:include page="header.jsp"></jsp:include>
-  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base"> 
-       <main class="mdl-layout__content ">
-        <div class="mdl-grid demo-content">
+  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" > 
+    <main class="mdl-layout__content ">
+     <div class="mdl-grid demo-content">
+      <div class="content" style="width: 700px;height: 100px;">
+      <div class="mdl-layout__tab-panel is-active" id="overview">
+          <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+           <div class="mdl-card__supporting-text">
+     		
+     		<form:form method="post" action="searchuser" commandName="user" id="search-user" >
+     		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    			<form:input class="mdl-textfield__input" type="text" name="csuid" id="csuid" path="csuid"></form:input>
+    			<label class="mdl-textfield__label" for="csuid">Enter CSU ID to search...</label>
+  			</div>
+  			<button style="color:blue;"><i class="material-icons">search</i></button>
+  			</form:form>
+     		 </div>
+      		</div>
+      </div>
+      </div>
       <div class="content" style="width: 700px;height: 600px;">
       	<div class="mdl-layout__tab-panel is-active" id="overview">
              <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
               <div class="mdl-card__supporting-text">
-              <c:if test="${! empty user.csuid }">
+              <c:if test="${! empty usernew.csuid }">
 				<script>
-					var userId = ${user.csuid};
+					var userId = ${usernew.csuid};
 				</script>
 				</c:if>
+				<div id="loginerrorCss">
+				<c:if test="${! empty info}">
+						<c:set var="comparevalue" value="${info}"/>
+						<c:if test="${fn:contains(comparevalue, 'update')}">
+						<spring:message code="user.update" />		
+						</c:if>
+						<c:if test="${fn:contains(comparevalue, 'notvalid')}">
+						<p><spring:message code="invalid.user" /></p>
+						</c:if>		
+				</c:if>	
+			</div>
+	
                 <h4>Welcome ${user.firstName } !</h4>
                 This is an Alumni Management System where in you get the latest updates about the ongoing events in the campus.
                 You can also interact with your professors and other alumni students as well.
@@ -88,12 +130,24 @@
             <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
               <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
                 <h2 class="mdl-card__title-text">Latest Events</h2>
+                <div class="mdl-layout-spacer"></div>
+    				<i class="material-icons">event</i>
               </div>
                <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                Non dolore elit adipisicing ea reprehenderit consectetur culpa.
+                <c:if test="${! empty alleventList}">
+                 <b>Event ID : </b>  ${alleventList.getEventid()}
+                 <br>
+             	 <b>Event By: </b> 	${alleventList.getCsuid() }
+               	<br>	
+               	<b>Event : </b>	 ${alleventList.getEventDesc() }
+               	<br>
+               	<b>Event Type : </b> ${alleventList.getEventType() }
+               	<br>
+               <b>Event Date : </b>	 ${alleventList.getEventDate() }
+             </c:if>
               </div>
               <div class="mdl-card__actions mdl-card--border">
-                <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
+                <a href="getAllevents" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
               </div>
               </div>
               
@@ -101,12 +155,24 @@
            <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
               <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
                 <h2 class="mdl-card__title-text">Latest Posts</h2>
+                <div class="mdl-layout-spacer"></div>
+    				<i class="material-icons">forum</i>
               </div>
                <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                Non dolore elit adipisicing ea reprehenderit consectetur culpa.
+                <c:if test="${! empty allpostList}">
+                 <b>Post ID : </b>  ${allpostList.getPostid()}
+                 <br>
+             	 <b>Post By : </b> 	${allpostList.getCsuId() }
+               	<br>	
+               	<b>Post : </b>	 ${allpostList.getPost() }
+               	<br>
+               	<b>Post Type : </b> ${allpostList.getPostType() }
+               	<br>
+               <b>Post Date : </b>	 ${allpostList.getPostDate() }
+             </c:if>
               </div>
               <div class="mdl-card__actions mdl-card--border">
-                <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
+                <a href="getAllposts" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
               </div>
               </div>
              
@@ -114,12 +180,24 @@
             <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
               <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
                 <h2 class="mdl-card__title-text">Professors</h2>
+                <div class="mdl-layout-spacer"></div>
+    				<i class="material-icons">people</i>
               </div>
                <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                Non dolore elit adipisicing ea reprehenderit consectetur culpa.
+                <c:if test="${! empty listProf}">
+                 <h4>${listProf.getProfName()}</h4>
+             	 <b>Email: </b> 	${listProf.getProfEmail() }
+               	<br>	
+               	<b>Research: </b>	 ${listProf.getProfResearch() }
+               	<br>
+               	<b>Department: </b> ${listProf.getDepartment() }
+               	<br>
+               <b>Phone: </b>	 ${listProf.getPhoneNumber() }
+               
+             </c:if>
               </div>
               <div class="mdl-card__actions mdl-card--border">
-                <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
+                <a href="professors" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
               </div>
               </div>
               

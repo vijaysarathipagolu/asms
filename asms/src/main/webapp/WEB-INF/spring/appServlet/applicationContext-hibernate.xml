@@ -23,7 +23,7 @@
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
 			p:dataSource-ref="dataSource"
 			p:mappingResources="User.hbm.xml,UserLogins.hbm.xml,
-								ResetPassword.hbm.xml,UserPost.hbm.xml,Events.hbm.xml">
+								ResetPassword.hbm.xml,UserPost.hbm.xml,Events.hbm.xml,UserEmail.hbm.xml">
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -65,12 +65,9 @@
 	-->
 	<tx:annotation-driven/>
 	
-	<bean id="userService" class="com.csu.asms.domain.service.UserServiceImpl"/>
+	<bean id="userService" class="com.csu.asms.service.UserServiceImpl"/>
 		
 	<bean id="userDao" class="com.csu.asms.repository.user.UserDaoImpl"/>
 	
-	<!-- wfdc's central data access object: Hibernate implementation -->
-	<!-- <bean id="userDao" class="com.xirrus.wfdc.repository.user.UserDaoImpl"/> -->
-	<!-- <bean class="com.xirrus.wfdc.validator.user.UserValidator"/> -->
-
+	
 </beans>

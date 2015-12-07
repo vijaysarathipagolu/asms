@@ -1,12 +1,17 @@
 /**
  * 
  */
-package com.csu.asms.domain.service;
+package com.csu.asms.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +20,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.csu.asms.domain.EventsJsonDto;
 import com.csu.asms.domain.PostJsonDto;
+import com.csu.asms.domain.professor.Professor;
+import com.csu.asms.domain.user.Events;
 import com.csu.asms.domain.user.ResetPassword;
 import com.csu.asms.domain.user.User;
 import com.csu.asms.domain.user.UserLogins;
 import com.csu.asms.domain.user.UserPost;
 import com.csu.asms.domain.user.UserStoryJsonDto;
 import com.csu.asms.repository.user.UserDao;
+
 
 
 
@@ -73,6 +82,13 @@ public  class UserServiceImpl implements UserService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void update(User user) {
 		// TODO Auto-generated method stub
+		log.info("In update method");
+		try {
+			userDao.update(user);
+		} catch (DataAccessException e) {
+			log.error("in update ", e);
+			throw e;
+		}
 		
 	}
 
@@ -87,7 +103,25 @@ public  class UserServiceImpl implements UserService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<UserStoryJsonDto> listUsers(String columnName, String order, int pageNo, int recordsPerPage) {
 		// TODO Auto-generated method stub
-		return null;
+		List<UserStoryJsonDto> list = null;
+		try {
+			log.debug("in listUsers method,columnName" + columnName + "order"
+					+ order);
+			List<UserStoryJsonDto> userList = userDao.getUserList(columnName, order,
+					pageNo, recordsPerPage);
+			
+			list = new ArrayList<UserStoryJsonDto>();
+
+			if (userList != null && userList.size() > 0) {
+				for (UserStoryJsonDto userStory : userList) {
+					list.add(userStory);
+				}
+			}
+		} catch (DataAccessException e) {
+			log.error("in listUsers ", e);
+			throw e;
+		}
+		return list;
 	}
 
 	@Override
@@ -152,6 +186,17 @@ public  class UserServiceImpl implements UserService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void resetPassword(Long csuid, String guivalue) {
 		// TODO Auto-generated method stub
+		log.debug("in resetPassword ,userId " + csuid + "guivalue " + guivalue);
+		try {
+			ResetPassword resetPassword = new ResetPassword();
+			resetPassword.setCsuid(csuid);
+			resetPassword.setGuiId(guivalue);
+			resetPassword.setResetDate(new Date());
+			userDao.resetPassword(resetPassword);
+		} catch (DataAccessException e) {
+			log.error("in resetPassword ", e);
+			throw e;
+		}
 		
 	}
 
@@ -159,13 +204,29 @@ public  class UserServiceImpl implements UserService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public ResetPassword validateGuid(String guid) {
 		// TODO Auto-generated method stub
-		return null;
+		ResetPassword resetpwd = null;
+		log.info("in validateGuid ");
+		try {
+			resetpwd = userDao.validateGuid(guid);
+		} catch (DataAccessException e) {
+			log.error("in validateGuid ", e);
+			throw e;
+		}
+		return resetpwd;
+		
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void removeGuid(String guid) {
 		// TODO Auto-generated method stub
+		try {
+			log.debug("in removeGuid guid" + guid);
+			userDao.removeGuid(guid);
+		} catch (DataAccessException e) {
+			log.error("In removeGuid ", e);
+			throw e;
+		}
 		
 	}
 
@@ -204,8 +265,21 @@ public  class UserServiceImpl implements UserService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void resetPassword(User user, String guid) {
 		// TODO Auto-generated method stub
-		
+		try{
+			log.info("in reset password service method");
+			String hashed = BCrypt.hashpw(user.getPassword(),
+					BCrypt.gensalt(12));
+			user.setPassword(hashed);
+			userDao.update(user);
+			userDao.removeGuid(guid);
+			log.info("In resetPassword to update and delete guid");
+			} catch (DataAccessException e) {
+				log.error("in resetPassword ", e);
+				throw e;
+			}
+
 	}
+	
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -214,6 +288,34 @@ public  class UserServiceImpl implements UserService{
 		List<PostJsonDto> uposts = new ArrayList<PostJsonDto>();
 		try{
 			uposts = userDao.userPosts(pageNo, csuid, recordsPerPage);
+			log.info("the posts lenght in service"+uposts.size());
+		}catch(DataAccessException e){
+			log.error("in error of userposts in service" +e);
+			throw e;
+		}
+		return uposts;
+	}
+
+	@Override
+	public List<PostJsonDto> listUsersPosts(int pageNo, int recordsPerPage) {
+		// TODO Auto-generated method stub
+		List<PostJsonDto> uposts = new ArrayList<PostJsonDto>();
+		try{
+			uposts = userDao.listUsersPosts(pageNo, recordsPerPage);
+			log.info("the posts lenght in service"+uposts.size());
+		}catch(DataAccessException e){
+			log.error("in error of userposts in service" +e);
+			throw e;
+		}
+		return uposts;
+	}
+
+	@Override
+	public List<EventsJsonDto> listEvents(int pageNo, int recordsPerPage) {
+		// TODO Auto-generated method stub
+		List<EventsJsonDto> uposts = new ArrayList<EventsJsonDto>();
+		try{
+			uposts = userDao.listEvents(pageNo, recordsPerPage);
 			log.info("the posts lenght in service"+uposts.size());
 		}catch(DataAccessException e){
 			log.error("in error of userposts in service" +e);
@@ -281,5 +383,76 @@ public  class UserServiceImpl implements UserService{
 		
 		
 	}
+
+	@Override
+	public List<Professor> listProf() {
+		// TODO Auto-generated method stub
+		log.info("in list prof method of service");
+		List<Professor> list = new ArrayList<Professor>();
+		try{
+			list = userDao.listProf();
+			log.info("the list of professors in service method"+list.size());
+		}catch(DataAccessException e){
+			log.error("error in list prof method of service class"+ e);
+		}
+		return list;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public int getUserTotalRecords() {
+		// TODO Auto-generated method stub
+		int totalrecords = 0;
+		try {
+			totalrecords = userDao.getUserTotalRecords();
+			log.debug("in getUserTotalRecords,total records" + totalrecords);
+		} catch (DataAccessException e) {
+			log.error("in getUserTotalRecords ", e);
+			throw e;
+		}
+		return totalrecords;
+		
+	}
+
+	@Override
+	public void storeEvent(User user, String eventDate) {
+		// TODO Auto-generated method stub
+		log.debug("in store event method");
+		Events event = new Events();
+
+		try{
+			event.setCsuid(user.getCsuid());
+			event.setEventDesc(user.getEventDesc());
+			DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.US);
+			//eventDate = eventDate.substring(0,eventDate.lastIndexOf(" "));
+			System.out.println("the event time is --" + eventDate);
+			Date date = format.parse(eventDate);
+			event.setEventDate(date);
+			event.setEventType(user.getEventType());
+			event.setEmail(user.getEmail());
+			
+			userDao.saveEvent(event);
+		
+	}catch(DataAccessException e){
+		log.error("error in store event method" +e);	
+		} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		
+		
+	}
+
+	@Override
+	public void removeEvent(Integer eventId) {
+		// TODO Auto-generated method stub
+		log.info("in remove event in service class");
+		try{
+			userDao.removeEvent(eventId);
+		}catch(DataAccessException e){
+			log.error("in remove event method in service"+ e);
+		}
+	}
+
 
 }

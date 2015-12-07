@@ -21,6 +21,7 @@
 		<property name="locations">
 			<list>
 				<value>file:${ASMS_HOME}/jdbc.properties</value>
+				<value>file:${ASMS_HOME}/smtp.properties</value>
 			</list>
 		</property>
 
@@ -38,10 +39,6 @@
 			p:driverClassName="com.mysql.jdbc.Driver" p:url="${jdbc.url}"
 			p:username="${jdbc.username}" p:password="${jdbc.password}"/>
 	
-	<!-- JNDI DataSource for JEE environments -->
-	<!--
-	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/wfdc"/>
-	-->
 
 	<!-- Database initializer. If any of the script fails, the initialization stops. -->
 	<!-- As an alternative, for embedded databases see <jdbc:embedded-database/>. -->

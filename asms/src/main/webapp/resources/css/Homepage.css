@@ -4,7 +4,19 @@
 	left: calc(50% - 200px);
 	top: calc(50% - 13em);
 	width: 400px;
-	height: 460px;
+	height: 480px;
+	border-radius: 3px;
+	background: white;
+	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.26);
+	overflow: hidden;
+}
+.event{
+	position: absolute;
+	padding: 10px;
+	left: calc(50% - 200px);
+	top: calc(50% - 15em);
+	width: 400px;
+	height: 550px;
 	border-radius: 3px;
 	background: white;
 	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.26);
@@ -12,15 +24,16 @@
 }
 .posts{
 	position: absolute;
-	padding: 10px;
+	padding: 5px;
 	left: calc(50% - 350px);
 	top: calc(50% - 16em);
 	width: 800px;
-	height: 460px;
+	height: 560px;
 	border-radius: 3px;
 	background: white;
 	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.26);
 	overflow: hidden;
+	display: inline;
 }
 .register{
 	position: absolute;
@@ -46,6 +59,10 @@ form {
   bottom: 20px;
   //display: inline-block;
 }
+.calender{
+	
+}
+    
 .form-registeruser {
   position: relative;
   margin-top: 35px;
@@ -63,14 +80,21 @@ span .form-field-wrapper{
 
  span .lasterrorspan {
 	width: 120px;
-	color: red;
+	color: red !important;
 }
 
 
 #loginerrorCss {
-	width: 120px;
-    color: red;       
+	width: 400px;
+    color: red !important;   
+    margin-right: 10px;
+	margin-left : 20px;     
 } 
+
+.confirmationcss{
+	
+	margin-top: 50px !important;
+}
 
 html, body 
 {
@@ -246,3 +270,60 @@ button[type="submit"] {
     color: #843534
 }
 
+.android-footer .mdl-mega-footer--right-section a .material-icons {
+    position: relative;
+    top: 6px;
+  }
+  
+.android-navigation-container {
+    /* Simple hack to make the overflow happen to the left instead... */
+    direction: rtl;
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+        -ms-flex-order: 1;
+            order: 1;
+    width: 700px;
+    -webkit-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-left:580px;
+  }
+
+  .android-navigation {
+    /* ... and now make sure the content is actually LTR */
+    direction: ltr;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    width: 700px;
+  }
+
+  .android-search-box.is-focused ~ .android-navigation-container {
+    opacity: 0;
+    width: 100px;
+  }
+
+
+  .android-navigation .mdl-navigation__link {
+    display: inline-block;
+    height: 60px;
+    line-height: 68px;
+    background-color: transparent !important;
+    border-bottom: 4px solid transparent;
+    margin:2px;
+  }
+
+    .android-navigation .mdl-navigation__link:hover {
+      border-bottom: 4px solid #8bc34a;
+    }
+    
+     .android-drawer .mdl-navigation__link.mdl-navigation__link {
+    font-size: 14px;
+    color: #757575;
+  }
+
+  .android-drawer span.mdl-navigation__link.mdl-navigation__link {
+    color: #8bc34a;
+  }

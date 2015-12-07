@@ -149,16 +149,17 @@ function Pager(tableName, itemsPerPage) {
 <jsp:include page="header.jsp"></jsp:include>
 <body>
 <div class="posts">
+
 <h4><b>User Post Details</b></h4>
-	<br>
-	
-					
+	<br>			
+		<c:if test="${not empty msg}">
 		<div class="alert alert-${css} alert-dismissible" role="alert">
 			<!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			 --><strong>${msg}</strong>
 		</div>
+	</c:if>
 	
 <c:if test="${ empty postList}">
 	
@@ -177,15 +178,14 @@ function Pager(tableName, itemsPerPage) {
 	</c:if>
 
 <c:if test="${ ! empty postList}">
-	
 <table id="results" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-  <thead>
-    <tr>
+  <thead><tr></tr>
+   <tr>
     <th width="5%"><input type="checkbox" id="selectAllId" name="selectall" value="all" onclick="checkall(this)"></input></th>
-      <th class="mdl-data-table__cell--non-numeric">Post ID</th>
+       <th class="mdl-data-table__cell--non-numeric">Post ID</th>
       <th class="mdl-data-table__cell--non-numeric">Post</th>
       <th class="mdl-data-table__cell--non-numeric">Post Date</th>
-      <th class="mdl-data-table__cell--non-numeric">Post Type</th>
+      <th class="mdl-data-table__cell--non-numeric">Post Type</th> 
     </tr>
   </thead>
   <tbody>

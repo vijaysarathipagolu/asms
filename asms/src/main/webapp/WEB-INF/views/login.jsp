@@ -6,13 +6,14 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page session="false"%>
 
 <head>
+<title>Student Alumni Management System Home Page</title>
 <link
 	href="${pageContext.servletContext.contextPath}/resources/css/Homepage.css"
-	rel="stylesheet">
-<title>Student Alumni Management System Home Page</title>
+	rel="stylesheet"/>
 </head>
 <body>
 	<h1 style="padding-left: 37%">Cleveland State University</h1>
@@ -22,6 +23,17 @@
 		<img
 			src="${pageContext.servletContext.contextPath}/resources/images/user.jpg"
 			title="user" style="padding-left: 35%;">
+			<div id="loginerrorCss">
+				<c:if test="${! empty info}">
+						<c:set var="comparevalue" value="${info}"/>
+						<c:if test="${fn:contains(comparevalue, 'doesnotexists')}">
+						<spring:message code="email.doesnotexists" />		
+						</c:if>
+						<c:if test="${fn:contains(comparevalue, 'notvalid')}">
+						<p><spring:message code="invalid.user" /></p>
+						</c:if>		
+				</c:if>	
+			</div>	
 		<form:form method="post" action="login" id="login-form" commandName="user">
 			<div id="u" id="form-group">
 				<form:input id="username"  class="form-control"
@@ -39,15 +51,14 @@
 			</div>
 			<div class="form-group">
 				<button id="submit" type="submit" 
-				style="margin-left:120px !important;padding-left: 35px;padding-right:35px;">Submit</button>
+				style="margin-left:120px !important;padding-left: 35px;padding-right:35px;">Login</button>
 			</div>
 			<br>
 			<span>
 			<a href="registeruser">Create an account</a>
-			<!-- <a href="userdashboard">User dashboard</a>
-				<a href="admindashboard">Admin Dashboard</a> -->
-			
 			</span>
+			<br>
+			<span><a href="forgotpassword">Forgot password?</a></span>
 			
 		</form:form>
 

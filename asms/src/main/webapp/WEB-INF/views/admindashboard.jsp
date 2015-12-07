@@ -1,4 +1,12 @@
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!doctype html>
 <!--
   Material Design Lite
@@ -47,6 +55,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/material.min.css">
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/admindashboard.css">
+    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/userdashboard.css">
     <style>
     #view-source {
       position: fixed;
@@ -59,9 +68,38 @@
     }
     </style>
   </head>
-  <body>
-    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-      <header class="demo-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
+  <jsp:include page="adminheader.jsp"></jsp:include>
+  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" > 
+    <main class="mdl-layout__content ">
+     <div class="mdl-grid demo-content">
+     <div class="content" style="width: 700px;height: 600px;margin-left:300px;">
+      	<div class="mdl-layout__tab-panel is-active" id="overview">
+             <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+              <div class="mdl-card__supporting-text">
+              <c:if test="${! empty usernew.csuid }">
+				<script>
+					var userId = ${usernew.csuid};
+				</script>
+				</c:if>
+				<div id="loginerrorCss">
+				<c:if test="${! empty info}">
+						<c:set var="comparevalue" value="${info}"/>
+						<c:if test="${fn:contains(comparevalue, 'update')}">
+						<spring:message code="user.update" />		
+						</c:if>
+						<c:if test="${fn:contains(comparevalue, 'notvalid')}">
+						<p><spring:message code="invalid.user" /></p>
+						</c:if>		
+				</c:if>	
+			</div>
+	
+                <h4>Welcome Administrator, ${user.firstName } !</h4>
+                This is the admin Dashboard of the Alumni Management System where in you can manage users , events , posts
+              </div>
+            </div>
+       </div>
+       </div>
+     <!--  <header class="demo-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
           <span class="mdl-layout-title">Home</span>
           <div class="mdl-layout-spacer"></div>
@@ -84,7 +122,7 @@
           </ul>
         </div>
       </header>
-      <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+      --><%--  <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
           <img src="${pageContext.servletContext.contextPath}/resources/images/user.jpg" class="demo-avatar">
           <div class="demo-avatar-dropdown">
@@ -102,21 +140,22 @@
           </div>
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
+          <a class="mdl-navigation__link" href="admindashboard"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>Inbox</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>Trash</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">report</i>Spam</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Forums</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>Updates</a>
+          <a class="mdl-navigation__link" href="email"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">email</i>Email</a>
+          <a class="mdl-navigation__link" href="posts"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Posts</a>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>Events</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_offer</i>Promos</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">shopping_cart</i>Purchases</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Social</a>
+          <a class="mdl-navigation__link" href="professors"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Professors</a>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Users</a>
           <div class="mdl-layout-spacer"></div>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
-      </div>
+      </div>  --%>
+      
       <main class="mdl-layout__content mdl-color--grey-100">
-        <div class="mdl-grid demo-content">
+       <!-- div class="mdl-grid demo-content">
           <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
             <svg fill="currentColor" width="200px" height="200px" viewBox="0 0 1 1" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop">
               <use xlink:href="#piechart" mask="url(#piemask)" />
@@ -193,10 +232,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </main>
-    </div>
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="position: fixed; left: -1000px; height: -1000px;">
+      <!-- svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="position: fixed; left: -1000px; height: -1000px;">
         <defs>
           <mask id="piemask" maskContentUnits="objectBoundingBox">
             <circle cx=0.5 cy=0.5 r=0.49 fill="white" />
@@ -244,6 +282,6 @@
         </defs>
       </svg>
       <a href="https://github.com/google/material-design-lite/blob/master/templates/dashboard/" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
-    <script src="${pageContext.servletContext.contextPath}/resources/js/material.min.js"></script>
-  </body>
+     --><script src="${pageContext.servletContext.contextPath}/resources/js/material.min.js"></script>
+  </div></body>
 </html>

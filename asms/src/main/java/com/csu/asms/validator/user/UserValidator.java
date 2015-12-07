@@ -33,7 +33,7 @@ public class UserValidator implements Validator {
 		// TODO Auto-generated method stub
 		User user = (User) target;
 		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "csuid", "empty.csuid");
+		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "empty.firstName");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "empty.lastName");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "empty.email");
@@ -51,7 +51,7 @@ public class UserValidator implements Validator {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPwd", "empty.confirmpassword");
 		}
 
-		csuidValidation(user,errors);
+		
 		cityValidation(user, errors);
 		firstNameValidation(user, errors);
 		lastNameValidation(user, errors);
@@ -66,14 +66,6 @@ public class UserValidator implements Validator {
 		typeOfUserValidation(user, errors);
 	}
 
-	private void csuidValidation(User user, Errors errors){
-		
-		Long csuid = user.getCsuid();
-		
-		if(csuid.toString().length()<7){
-			errors.reject("csuid","invalid.csuid");
-		}
-	}
 	private void typeOfUserValidation(User user, Errors errors) {
 
 		

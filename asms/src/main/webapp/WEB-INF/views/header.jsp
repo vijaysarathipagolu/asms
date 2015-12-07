@@ -13,12 +13,13 @@
         <h3>Alumni Management System</h3>
         </div>  -->
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+    	 
           <a href="userdashboard" class="mdl-layout__tab is-active">Home</a>
-          <a href="#features" class="mdl-layout__tab">News & Events</a>
-          <a href="#features" class="mdl-layout__tab">Email</a>
-          <a href="#features" class="mdl-layout__tab">Professors</a>
+          <a href="events" class="mdl-layout__tab">News & Events</a>
+          <a href="useremail" class="mdl-layout__tab">Email</a>
+          <a href="professors" class="mdl-layout__tab">Professors</a>
           <a href="posts" class="mdl-layout__tab">Posts</a>
-          <a href="#features" class="mdl-layout__tab">My Profile</a>
+          <a href="userprofile" class="mdl-layout__tab">My Profile</a>
           <a href="logout" class="mdl-layout__tab">Sign out</a>
          <!--  <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">
             <i class="material-icons" role="presentation">add</i>

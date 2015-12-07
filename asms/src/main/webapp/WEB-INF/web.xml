@@ -40,7 +40,7 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-		<!-- <error-page>
+		<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/views/404.jsp</location>
 	</error-page>
@@ -48,7 +48,7 @@
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/WEB-INF/views/error.jsp</location>
-	</error-page> -->
+	</error-page>
 
 	<session-config>
 		<session-timeout>60</session-timeout>

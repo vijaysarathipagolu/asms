@@ -14,7 +14,7 @@
 	href="${pageContext.servletContext.contextPath}/resources/css/Homepage.css"
 	rel="stylesheet">
 <script type="text/javascript">
-	$(document).ready(
+	$('document').ready(
 			function() {
 				var states = new Array(/* "Select", */"Afghanistan",
 						"Albania", "Algeria", "Andorra", "Angola",
@@ -95,18 +95,29 @@
 			});
 </script>
 </head>
+<c:choose>
+<c:when test="${admin.isAdmin() == true}">
+<jsp:include page="adminheader.jsp"></jsp:include>
+</c:when>
+</c:choose>
+
 <body>
-	<h1 style="padding-left: 37%">Cleveland State University</h1>
-	<div class="register">
+		
+		<h1 style="padding-left: 37%">Cleveland State University</h1>
+		
+		<div class="register">
+		
 		<h2 style="padding-left: 25%">Create your Alumni Account</h2>
+		
 		<c:if test="${not empty msg}">
 		<div class="alert alert-${css} alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			<strong>${msg}</strong>
+			<strong style="margin-left:100px;">${msg}</strong>
 		</div>
-	</c:if>
+		</c:if>
+		
 		<form:form method="post" commandName="registeruser" action="registeruser" 
 		id="form-registeruser">
 			<span> <span class="form-field-wrapper"> <form:label
@@ -114,7 +125,7 @@
 						<spring:message code="label.csuid" />
 						<font color="red">*</font>
 					</form:label></span> <span class="form-registeruser"> <form:input
-						 path="csuid" class="reg-form-control" maxlength="50" />
+						 path="csuid" class="reg-form-control" maxlength="50" required="true"/>
 			</span> <span class="lasterrorspan"><form:errors path="csuid"
 						cssClass="error" /> </span>
 			</span>
@@ -218,6 +229,7 @@
 					class="lasterrorspan"><form:errors path="zipCode"
 							cssClass="error" /></span>
 			</span>				
+			
 			<br>
 			<span> <span class="form-field-wrapper"><form:label path="state"
 					style="width: 100px;">
@@ -294,6 +306,9 @@
 					<form:option value="Event Manager">Event Manager</form:option>
 					<form:option value="Student">Student</form:option>
 					</form:select></span></span>
+		
+		
+			
 			<span><div class="form-group">
 				<button id="submit" type="submit" 
 				style="margin-left:120px !important;padding-left: 35px;padding-right:35px;">Register</button>

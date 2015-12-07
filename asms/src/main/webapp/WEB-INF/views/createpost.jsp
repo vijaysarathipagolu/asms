@@ -21,13 +21,15 @@
 </head>
 <jsp:include page="header.jsp"></jsp:include>
 <body>
-<div class="post">
-					<span id="loginerrorCss">
-					<c:set var="comparevalue" value="${feedbackinvalid}"/>			
-					<c:if test="${fn:contains(comparevalue, 'invalid')}">
-						<spring:message code="invalid.email" />		
-					</c:if>
-					</span>
+	
+	<div class="event">
+		<h6><b>Create Post</b></h6>
+			<span id="loginerrorCss">
+			<c:set var="comparevalue" value="${feedbackinvalid}"/>			
+			<c:if test="${fn:contains(comparevalue, 'invalid')}">
+				<spring:message code="invalid.email" />		
+			</c:if>
+			</span>
 	<form:form method="post" action="storepost" id="login-form" commandName="user" 
 							enctype="multipart/form-data" >
 			<div class="form-group">
@@ -73,7 +75,7 @@
 			</div>
 			<div class="form-group">
 				<button id="submit" type="submit" 
-				style="margin-left:120px !important;padding-left: 35px;padding-right:35px;">Submit</button>
+				style="margin-left:120px !important;padding-left: 35px;padding-right:35px;">Create</button>
 			</div>
 			<br>
 			</form:form>

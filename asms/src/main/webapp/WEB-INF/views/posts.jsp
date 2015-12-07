@@ -12,32 +12,93 @@
 <%@ page session="false"%>
 <html>
 <head>
-<link href="${pageContext.servletContext.contextPath}/resources/css/Homepage.css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+
+<%-- <link href="${pageContext.servletContext.contextPath}/resources/css/Homepage.css" rel="stylesheet"> --%>
 <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/material.min.css">
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/userdashboard.css">
-    
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/admindashboard.css"> 
 
 <title>Posts</title>
 </head>
-<jsp:include page="header.jsp"></jsp:include>
-<body>
-<div class="post">
 
-					<c:if test="${not empty msg}">
-		<div class="alert alert-${css} alert-dismissible" role="alert">
+<c:choose>
+<c:when test="${user.isAdmin() == true}">
+<jsp:include page="adminheader.jsp"></jsp:include>
+</c:when>
+<c:otherwise>
+<jsp:include page="header.jsp"></jsp:include>
+</c:otherwise>
+</c:choose>
+
+
+<body>
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<main class="mdl-layout__content">
+<c:if test="${not empty msg}">
+			<div class="alert alert-${css} alert-dismissible" role="alert">
 			<!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			 --><strong>${msg}</strong>
-		</div>
-	</c:if>
+			</div>
+			</c:if>
+<div class="mdl-layout__tab-panel is-active" id="overview">
+<div class=" mdl-cell mdl-cell--12-col mdl-grid">	
+<c:if test="${user.getTypeOfUser() == 'Alumni'}"> 
+<div class="demo-card-event mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-card--expand">
+    <h4 style="padding-left:40px;">
+      <br>Create Post
+    </h4>
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="createpost">
+      click here
+    </a>
+    <div class="mdl-layout-spacer"></div>
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+  			<i class="material-icons">add</i>
+		</button>
+  </div>
+  </div>
 
-<a href="createpost">Create Post</a>
+<div class="demo-card-event mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-card--expand">
+    <h4 style="padding-left:40px;">
+      <br>View Posts
+    </h4>
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="getposts">
+      click here
+    </a>
+    <div class="mdl-layout-spacer"></div>
+    <i class="material-icons">pageview</i>
+  </div>
+  </div>
+ </c:if> 
+<div class="demo-card-event mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-card--expand">
+    <h4 style="padding-left:30px;">
+      <br>View All Posts
+    </h4>
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="getAllposts" >
+      click here
+    </a>
+    <div class="mdl-layout-spacer"></div>
+    <i class="material-icons">pageview</i>
+  </div>
+  </div>
 <br>
-<a href="getposts">View Posts</a>
-<br>
-<a href="viewallposts">View All</a>
 </div>
+</div></main>
 </body>
 </html>
