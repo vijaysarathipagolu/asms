@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package com.csu.asms.validator.user;
 
 import java.util.regex.Matcher;
@@ -16,6 +14,8 @@ import com.csu.asms.domain.user.User;
 /**
  * @author vijay
  *
+ *         this a validator class which implements spring Validator interface
+ *         for validating user entered inputs values in forms
  */
 @Component
 public class UserValidator implements Validator {
@@ -32,26 +32,18 @@ public class UserValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		// TODO Auto-generated method stub
 		User user = (User) target;
-		
-		
+
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "empty.firstName");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "empty.lastName");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "empty.email");
-		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmemail", "empty.confirmEmail");
-
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "city", "empty.city");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", "empty.phoneNumber");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "typeOfUser", "empty.typeOfUser");
-		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "post", "empty.post");
-		
-		
-
 		if (!user.isEdit()) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPwd", "empty.confirmpassword");
 		}
 
-		
 		cityValidation(user, errors);
 		firstNameValidation(user, errors);
 		lastNameValidation(user, errors);
@@ -60,15 +52,15 @@ public class UserValidator implements Validator {
 			passwordValidationNew(user, errors);
 		}
 		phoneNumberValidation(user, errors);
-		// zipCodeValidation(user, errors);
 		emailValidation(user, errors);
-		//confirmEmailValidation(user, errors);
 		typeOfUserValidation(user, errors);
 	}
 
+	/**
+	 * This method is used to validate the type of user
+	 */
 	private void typeOfUserValidation(User user, Errors errors) {
 
-		
 		String typeOfUser = user.getTypeOfUser();
 		if ("select".equalsIgnoreCase(typeOfUser)) {
 			errors.rejectValue("typeOfUser", "invalid.typeOfUser");
@@ -76,6 +68,9 @@ public class UserValidator implements Validator {
 
 	}
 
+	/**
+	 * This method is used to validate city
+	 */
 	private void cityValidation(User user, Errors errors) {
 
 		String city = user.getCity();
@@ -95,6 +90,9 @@ public class UserValidator implements Validator {
 		}
 	}
 
+	/**
+	 * This method is used to validate first name of the user
+	 */
 	private void firstNameValidation(User user, Errors errors) {
 
 		String firstName = user.getFirstName();
@@ -113,12 +111,15 @@ public class UserValidator implements Validator {
 
 	}
 
+	/**
+	 * This method is used to validate phone number
+	 */
 	private void phoneNumberValidation(User user, Errors errors) {
 
 		String phoneNumber = user.getPhoneNumber();
 		if (phoneNumber.length() != 0) {
 			if (phnIfNonNumeric(phoneNumber, errors))
-			
+
 				errors.rejectValue("phoneNumber", "required.phoneNumber",
 						"Phone number should only contain numeric characters");
 
@@ -129,6 +130,9 @@ public class UserValidator implements Validator {
 		}
 	}
 
+	/**
+	 * This method is used to check if phone number is numeric
+	 */
 	private boolean phnIfNonNumeric(String phoneNumber, Errors errors) {
 
 		Pattern p = Pattern.compile("[0-9]*");
@@ -242,7 +246,7 @@ public class UserValidator implements Validator {
 			int pwdLength = user.getPassword().length();
 			if (pwdLength < 5 || pwdLength > 15) {
 				errors.rejectValue("password", "invalid.passwordLength");
-				//errors.rejectValue("password", "invalid.commonpassword");
+				// errors.rejectValue("password", "invalid.commonpassword");
 			} else {
 				int upperCaseCount = 0;
 				int numericCount = 0;
@@ -256,7 +260,7 @@ public class UserValidator implements Validator {
 
 				if (numericCount == 0 || upperCaseCount == 0) {
 					errors.rejectValue("password", "invalid.passwordType");
-					//errors.rejectValue("password", "invalid.commonpassword");
+					// errors.rejectValue("password", "invalid.commonpassword");
 				}
 
 			}

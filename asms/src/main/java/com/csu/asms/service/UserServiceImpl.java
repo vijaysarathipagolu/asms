@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package com.csu.asms.service;
 
 import java.text.DateFormat;
@@ -31,22 +29,19 @@ import com.csu.asms.domain.user.UserPost;
 import com.csu.asms.domain.user.UserStoryJsonDto;
 import com.csu.asms.repository.user.UserDao;
 
-
-
-
 /**
  * @author vijay
  *
+ *         this is a service implementation class for all user operations
  */
 @Service("userService")
 @Transactional(propagation = Propagation.SUPPORTS)
-public  class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	private static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-	
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(User user, Boolean admin) {
@@ -61,13 +56,12 @@ public  class UserServiceImpl implements UserService{
 				userlogins.setLoginCount(1L);
 				userlogins.setLastLogin(new java.util.Date());
 			}
-			
 
 			user.setRegisteredDate(new java.util.Date());
 			user.setUserLogins(userlogins);
 			userlogins.setUser(user);
 			userDao.store(user);
-			//userDao.storeUserLogins(userlogins);
+			// userDao.storeUserLogins(userlogins);
 
 		} catch (DataAccessException e) {
 			log.error("In store ", e);
@@ -75,7 +69,6 @@ public  class UserServiceImpl implements UserService{
 
 		}
 
-		
 	}
 
 	@Override
@@ -89,14 +82,14 @@ public  class UserServiceImpl implements UserService{
 			log.error("in update ", e);
 			throw e;
 		}
-		
+
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void removeUser(Long csuid) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -105,11 +98,9 @@ public  class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		List<UserStoryJsonDto> list = null;
 		try {
-			log.debug("in listUsers method,columnName" + columnName + "order"
-					+ order);
-			List<UserStoryJsonDto> userList = userDao.getUserList(columnName, order,
-					pageNo, recordsPerPage);
-			
+			log.debug("in listUsers method,columnName" + columnName + "order" + order);
+			List<UserStoryJsonDto> userList = userDao.getUserList(columnName, order, pageNo, recordsPerPage);
+
 			list = new ArrayList<UserStoryJsonDto>();
 
 			if (userList != null && userList.size() > 0) {
@@ -144,14 +135,14 @@ public  class UserServiceImpl implements UserService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public User validateUser(Long csuid, String password) {
 		// TODO Auto-generated method stub
-		User user=null;
+		User user = null;
 		log.info("in validate user login method");
-		try{
+		try {
 			user = userDao.validateUser(csuid, password);
-		}catch(DataAccessException e){
+		} catch (DataAccessException e) {
 			log.error("in validate user", e);
 		}
-		
+
 		return user;
 	}
 
@@ -179,7 +170,7 @@ public  class UserServiceImpl implements UserService{
 			log.error("in storeUserLogins ", e);
 			throw e;
 		}
-		
+
 	}
 
 	@Override
@@ -197,7 +188,7 @@ public  class UserServiceImpl implements UserService{
 			log.error("in resetPassword ", e);
 			throw e;
 		}
-		
+
 	}
 
 	@Override
@@ -213,7 +204,7 @@ public  class UserServiceImpl implements UserService{
 			throw e;
 		}
 		return resetpwd;
-		
+
 	}
 
 	@Override
@@ -227,70 +218,68 @@ public  class UserServiceImpl implements UserService{
 			log.error("In removeGuid ", e);
 			throw e;
 		}
-		
+
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void updateUserLogins(Long csuid) {
 		// TODO Auto-generated method stub
-		try{
+		try {
 			UserLogins ulogin = userDao.getUserLogins(csuid);
-			
-			if(ulogin !=null){
+
+			if (ulogin != null) {
 				Long count = ulogin.getLoginCount();
 				log.debug("in updateUserLogins,count" + count);
 				count++;
 				ulogin.setLoginCount(count);
 				ulogin.setLastLogin(new Date());
 				userDao.storeUserLogins(ulogin);
-			}else{
-				User user=userDao.findUser(csuid);
-				ulogin=new UserLogins();
-				ulogin.setUser(user);				
+			} else {
+				User user = userDao.findUser(csuid);
+				ulogin = new UserLogins();
+				ulogin.setUser(user);
 				ulogin.setLoginCount(1L);
 				ulogin.setLastLogin(new Date());
 				user.setUserLogins(ulogin);
 				userDao.store(user);
-				
+
 			}
-			
-		}catch(DataAccessException e){
+
+		} catch (DataAccessException e) {
 			log.error("in error of update loginS", e);
 		}
-		
+
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void resetPassword(User user, String guid) {
 		// TODO Auto-generated method stub
-		try{
+		try {
 			log.info("in reset password service method");
-			String hashed = BCrypt.hashpw(user.getPassword(),
-					BCrypt.gensalt(12));
+			String hashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
 			user.setPassword(hashed);
 			userDao.update(user);
 			userDao.removeGuid(guid);
 			log.info("In resetPassword to update and delete guid");
-			} catch (DataAccessException e) {
-				log.error("in resetPassword ", e);
-				throw e;
-			}
+		} catch (DataAccessException e) {
+			log.error("in resetPassword ", e);
+			throw e;
+		}
 
 	}
-	
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<PostJsonDto> userPosts(int pageNo, Long csuid, Integer recordsPerPage) {
 		// TODO Auto-generated method stub
 		List<PostJsonDto> uposts = new ArrayList<PostJsonDto>();
-		try{
+		try {
 			uposts = userDao.userPosts(pageNo, csuid, recordsPerPage);
-			log.info("the posts lenght in service"+uposts.size());
-		}catch(DataAccessException e){
-			log.error("in error of userposts in service" +e);
+			log.info("the posts lenght in service" + uposts.size());
+		} catch (DataAccessException e) {
+			log.error("in error of userposts in service" + e);
 			throw e;
 		}
 		return uposts;
@@ -300,11 +289,11 @@ public  class UserServiceImpl implements UserService{
 	public List<PostJsonDto> listUsersPosts(int pageNo, int recordsPerPage) {
 		// TODO Auto-generated method stub
 		List<PostJsonDto> uposts = new ArrayList<PostJsonDto>();
-		try{
+		try {
 			uposts = userDao.listUsersPosts(pageNo, recordsPerPage);
-			log.info("the posts lenght in service"+uposts.size());
-		}catch(DataAccessException e){
-			log.error("in error of userposts in service" +e);
+			log.info("the posts lenght in service" + uposts.size());
+		} catch (DataAccessException e) {
+			log.error("in error of userposts in service" + e);
 			throw e;
 		}
 		return uposts;
@@ -314,11 +303,11 @@ public  class UserServiceImpl implements UserService{
 	public List<EventsJsonDto> listEvents(int pageNo, int recordsPerPage) {
 		// TODO Auto-generated method stub
 		List<EventsJsonDto> uposts = new ArrayList<EventsJsonDto>();
-		try{
+		try {
 			uposts = userDao.listEvents(pageNo, recordsPerPage);
-			log.info("the posts lenght in service"+uposts.size());
-		}catch(DataAccessException e){
-			log.error("in error of userposts in service" +e);
+			log.info("the posts lenght in service" + uposts.size());
+		} catch (DataAccessException e) {
+			log.error("in error of userposts in service" + e);
 			throw e;
 		}
 		return uposts;
@@ -331,19 +320,20 @@ public  class UserServiceImpl implements UserService{
 		log.debug("in store alumni post method");
 		UserPost userpost = new UserPost();
 
-		try{
-		userpost.setCsuid(user.getCsuid());
-		userpost.setEmailId(user.getEmail());
-		userpost.setPost(user.getPost());
-		userpost.setPostType(postType);
-		userpost.setPostDate(new java.util.Date());
-		userpost.setImageName(imageName);
-		userDao.savePost(userpost);
-		
-	}catch(DataAccessException e){
-		log.error("error in store alumni post method" +e);	
+		try {
+			userpost.setCsuid(user.getCsuid());
+			userpost.setEmailId(user.getEmail());
+			userpost.setPost(user.getPost());
+			userpost.setPostType(postType);
+			userpost.setPostDate(new java.util.Date());
+			userpost.setImageName(imageName);
+			userDao.savePost(userpost);
+
+		} catch (DataAccessException e) {
+			log.error("error in store alumni post method" + e);
 		}
 	}
+
 	@Override
 	/**
 	 * @param email
@@ -352,15 +342,15 @@ public  class UserServiceImpl implements UserService{
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public User validateCsuid(Long csuid) {
 		// TODO Auto-generated method stub
-		User user=null;
-		log.debug("in validate CSUID",csuid);
-		try{
-			user= userDao.validateCsuid(csuid);
-			
-		}catch (DataAccessException e) {
+		User user = null;
+		log.debug("in validate CSUID", csuid);
+		try {
+			user = userDao.validateCsuid(csuid);
+
+		} catch (DataAccessException e) {
 			log.error("in validateEmail ", e);
 			throw e;
-			
+
 		}
 		return user;
 	}
@@ -368,20 +358,19 @@ public  class UserServiceImpl implements UserService{
 	@Override
 	/**
 	 * @param postId
-	 * this method is used to delete post of user
+	 *            this method is used to delete post of user
 	 * 
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void removePost(Integer postId) {
 		// TODO Auto-generated method stub
 		log.info("in remove post in service class");
-		try{
+		try {
 			userDao.removePost(postId);
-		}catch(DataAccessException e){
-			log.error("in remove post method in service"+ e);
+		} catch (DataAccessException e) {
+			log.error("in remove post method in service" + e);
 		}
-		
-		
+
 	}
 
 	@Override
@@ -389,11 +378,11 @@ public  class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		log.info("in list prof method of service");
 		List<Professor> list = new ArrayList<Professor>();
-		try{
+		try {
 			list = userDao.listProf();
-			log.info("the list of professors in service method"+list.size());
-		}catch(DataAccessException e){
-			log.error("error in list prof method of service class"+ e);
+			log.info("the list of professors in service method" + list.size());
+		} catch (DataAccessException e) {
+			log.error("error in list prof method of service class" + e);
 		}
 		return list;
 	}
@@ -411,7 +400,7 @@ public  class UserServiceImpl implements UserService{
 			throw e;
 		}
 		return totalrecords;
-		
+
 	}
 
 	@Override
@@ -420,39 +409,37 @@ public  class UserServiceImpl implements UserService{
 		log.debug("in store event method");
 		Events event = new Events();
 
-		try{
+		try {
 			event.setCsuid(user.getCsuid());
 			event.setEventDesc(user.getEventDesc());
-			DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.US);
-			//eventDate = eventDate.substring(0,eventDate.lastIndexOf(" "));
+			DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+			// eventDate = eventDate.substring(0,eventDate.lastIndexOf(" "));
 			System.out.println("the event time is --" + eventDate);
 			Date date = format.parse(eventDate);
 			event.setEventDate(date);
 			event.setEventType(user.getEventType());
 			event.setEmail(user.getEmail());
-			
+
 			userDao.saveEvent(event);
-		
-	}catch(DataAccessException e){
-		log.error("error in store event method" +e);	
+
+		} catch (DataAccessException e) {
+			log.error("error in store event method" + e);
 		} catch (ParseException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		
-		
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void removeEvent(Integer eventId) {
 		// TODO Auto-generated method stub
 		log.info("in remove event in service class");
-		try{
+		try {
 			userDao.removeEvent(eventId);
-		}catch(DataAccessException e){
-			log.error("in remove event method in service"+ e);
+		} catch (DataAccessException e) {
+			log.error("in remove event method in service" + e);
 		}
 	}
-
 
 }

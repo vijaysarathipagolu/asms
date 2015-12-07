@@ -1,5 +1,5 @@
 /**
- * 
+ * This class is used as a ResetPassword domain object used to store values in DB
  */
 package com.csu.asms.domain.user;
 

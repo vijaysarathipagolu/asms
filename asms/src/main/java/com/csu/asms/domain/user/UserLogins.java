@@ -5,6 +5,8 @@ import java.util.Date;
 
 /**
  * @author vijay_000
+ * 
+ *         this class is to store the user login information into the DB
  *
  */
 
@@ -15,8 +17,7 @@ public class UserLogins implements Serializable {
 	private Long loginCount;
 	private Date lastLogin;
 	private User user;
-	
-	
+
 	/**
 	 * @return the csuid
 	 */
@@ -25,13 +26,13 @@ public class UserLogins implements Serializable {
 	}
 
 	/**
-	 * @param csuid the csuid to set
+	 * @param csuid
+	 *            the csuid to set
 	 */
 	public void setCsuid(Long csuid) {
 		this.csuid = csuid;
 	}
 
-	
 	public Date getLastLogin() {
 		return lastLogin;
 	}
@@ -56,7 +57,8 @@ public class UserLogins implements Serializable {
 	}
 
 	/**
-	 * @param loginCount the loginCount to set
+	 * @param loginCount
+	 *            the loginCount to set
 	 */
 	public void setLoginCount(Long loginCount) {
 		this.loginCount = loginCount;
